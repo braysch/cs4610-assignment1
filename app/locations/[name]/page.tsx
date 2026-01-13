@@ -1,3 +1,3 @@
-export default async function LocationsPage() {
+export default async function LocationDetailsPage() {
     return <div>Locations</div>;
 }

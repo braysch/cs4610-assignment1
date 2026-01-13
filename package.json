@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ionic/react": "^8.7.16",
+    "ionicons": "^8.0.13",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"

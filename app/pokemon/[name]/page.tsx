@@ -1,3 +1,3 @@
-export default async function PokemonPage() {
+export default async function PokemonDetailsPage() {
     return <div>Pokemon</div>;
 }
