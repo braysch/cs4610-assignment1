@@ -1,4 +1,4 @@
-import { fetchLocationByName } from '@/utils/pokemon-api';
+import { fetchLocationByName, fetchRegionByName } from '@/utils/pokemon-api';
 import BackButton from '@/app/_components/BackButton';
 import PokemonItem from '@/app/_components/PokemonItem';
 
@@ -40,7 +40,21 @@ export default async function LocationDetailPage({ params }: LocationDetailPageP
     })
   );
 
-  const regionName = location.region?.name || 'Unknown';
+  let regionName = location.region?.name || 'Unknown';
+  let displayRegionName = regionName;
+  
+  // Check if the location's region is a subregion and get the main region
+  if (location.region?.name) {
+    try {
+      const region = await fetchRegionByName(location.region.name);
+      // If the region has a main_region field, it's a subregion
+      if (region.main_region?.name) {
+        displayRegionName = region.main_region.name;
+      }
+    } catch (error) {
+      console.error('Error fetching region:', error);
+    }
+  }
 
   return (
     <div className="flex flex-col items-center py-6 sm:py-8 px-4 sm:px-6 bg-gray-950 min-h-screen">
@@ -52,7 +66,7 @@ export default async function LocationDetailPage({ params }: LocationDetailPageP
         </h1>
 
         <p className="text-center text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">
-          Region: <span className="text-gray-200 capitalize font-semibold">{regionName.replace(/-/g, ' ')}</span>
+          Region: <span className="text-gray-200 capitalize font-semibold">{displayRegionName.replace(/-/g, ' ')}</span>
         </p>
 
         {/* Areas */}

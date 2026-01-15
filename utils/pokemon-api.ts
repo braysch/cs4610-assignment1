@@ -14,6 +14,12 @@ export async function fetchPokemonByName(name: string) {
   return response.json();
 }
 
+export async function fetchPokemonEncounters(name: string) {
+  const response = await fetch(`${BASE_URL}/pokemon/${name.toLowerCase()}/encounters`);
+  if (!response.ok) throw new Error(`Failed to fetch pokemon encounters: ${name}`);
+  return response.json();
+}
+
 // ============ MOVES API FUNCTIONS ============
 
 export async function fetchMoves(limit: number = 1000) {
@@ -53,5 +59,11 @@ export async function fetchGenerations() {
 export async function fetchGenerationByName(name: string) {
   const response = await fetch(`${BASE_URL}/generation/${name.toLowerCase().replace(/ /g, '-')}`);
   if (!response.ok) throw new Error(`Failed to fetch generation: ${name}`);
+  return response.json();
+}
+
+export async function fetchRegionByName(name: string) {
+  const response = await fetch(`${BASE_URL}/region/${name.toLowerCase().replace(/ /g, '-')}`);
+  if (!response.ok) throw new Error(`Failed to fetch region: ${name}`);
   return response.json();
 }

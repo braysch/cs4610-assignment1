@@ -16,7 +16,8 @@ export default function PokemonSearchClient({ pokemonList }: PokemonSearchClient
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredPokemon = pokemonList.filter((poke) =>
-    poke.name.toLowerCase().includes(searchTerm.toLowerCase())
+    poke.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    poke.name.replace(/-/g, ' ').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

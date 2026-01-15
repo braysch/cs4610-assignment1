@@ -19,7 +19,7 @@ interface PokemonItemProps {
 export default function PokemonItem({
   pokemon,
   totalCount,
-  showSprite = false,
+  showSprite = true,
   variant = 'list',
 }: PokemonItemProps) {
   if (variant === 'grid' && showSprite) {

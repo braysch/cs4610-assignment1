@@ -1,5 +1,5 @@
 import { fetchLocations } from '@/utils/pokemon-api';
-import LocationsSearchClient from './LocationsSearchClient';
+import LocationsSearchClient from '@/app/_components/LocationsSearchClient';
 
 export default async function LocationsPage() {
   const locations = await fetchLocations(1000);

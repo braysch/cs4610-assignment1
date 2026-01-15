@@ -16,7 +16,7 @@ const PokemonSpriteImage = ({ poke }: { poke: Pokemon }) => {
 
   return (
     <>
-      {exists && (
+      {exists ? (
         <>
         <Image
           src={src}
@@ -26,7 +26,16 @@ const PokemonSpriteImage = ({ poke }: { poke: Pokemon }) => {
           onError={() => setExists(false)}
         />
         </>
-      )}
+      ) : 
+      <>
+        <Image
+          src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png"}
+          alt={poke.name}
+          width={100}
+          height={100}
+        />
+        </>
+      }
     </>
   );
 };

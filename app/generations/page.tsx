@@ -1,5 +1,5 @@
 import { fetchGenerations } from '@/utils/pokemon-api';
-import GenerationsSearchClient from './GenerationsSearchClient';
+import GenerationsSearchClient from '@/app/_components/GenerationsSearchClient';
 
 export default async function GenerationsPage() {
   const generations = await fetchGenerations();

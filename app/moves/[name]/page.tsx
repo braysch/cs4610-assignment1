@@ -75,7 +75,7 @@ export default async function MoveDetailPage({ params }: MoveDetailPageProps) {
           <h2 className="text-xl sm:text-2xl font-bold mb-4">Pokemon that Learn This Move</h2>
           {pokemon.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
-              {pokemon.slice(0, 50).map((poke: any) => (
+              {pokemon.map((poke: any) => (
                 <PokemonItem
                             key={poke.name}
                             pokemon={poke}
@@ -87,11 +87,6 @@ export default async function MoveDetailPage({ params }: MoveDetailPageProps) {
             </div>
           ) : (
             <p className="text-gray-400 text-sm sm:text-base">No Pokemon found</p>
-          )}
-          {pokemon.length > 50 && (
-            <p className="text-gray-400 mt-4 text-xs sm:text-sm">
-              Showing 50 of {pokemon.length} Pokemon
-            </p>
           )}
         </div>
       </div>

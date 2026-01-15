@@ -1,4 +1,4 @@
-import { fetchPokemonByName, fetchMoves, fetchLocations } from '@/utils/pokemon-api';
+import { fetchPokemonByName, fetchMoves, fetchLocations, fetchPokemonEncounters } from '@/utils/pokemon-api';
 import Link from 'next/link';
 import BackButton from '@/app/_components/BackButton';
 import PokemonSpriteImage from '@/app/_components/PokemonSpriteImage';
@@ -20,9 +20,34 @@ export default async function PokemonDetailPage({ params }: PokemonDetailPagePro
   // Extract move names from pokemon.moves
   const pokemonMoveNames = pokemon.moves?.map((m: any) => m.move.name) || [];
 
-  // Note: location_area_encounters is just a URL string, not an array
-  // Would require additional API call to fetch. Skipping for now.
-  const pokemonLocationNames: string[] = [];
+  // Fetch encounters to get location data
+  const encountersData = await fetchPokemonEncounters(name);
+  const pokemonLocationMap = new Map<string, string>(); // Map of location_area_name -> location_name
+  
+  // Fetch each location area to get its parent location
+  await Promise.all(
+    encountersData.map(async (encounter: any) => {
+      const locationAreaName = encounter.location_area?.name;
+      const locationAreaUrl = encounter.location_area?.url;
+      
+      if (locationAreaName && locationAreaUrl && !pokemonLocationMap.has(locationAreaName)) {
+        try {
+          const locationAreaResponse = await fetch(locationAreaUrl);
+          if (locationAreaResponse.ok) {
+            const locationAreaData = await locationAreaResponse.json();
+            const parentLocationName = locationAreaData.location?.name;
+            if (parentLocationName) {
+              pokemonLocationMap.set(locationAreaName, parentLocationName);
+            }
+          }
+        } catch (error) {
+          console.error(`Error fetching location area ${locationAreaName}:`, error);
+        }
+      }
+    })
+  );
+
+  const pokemonLocationNames = Array.from(pokemonLocationMap.values());
 
   const stats = pokemon.stats || [];
   const sprites = pokemon.sprites || {};
@@ -115,7 +140,7 @@ export default async function PokemonDetailPage({ params }: PokemonDetailPagePro
           <h2 className="text-xl sm:text-2xl font-bold mb-4">Moves</h2>
           {pokemonMoveNames.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-              {pokemonMoveNames.slice(0, 20).map((moveName: string) => (
+              {pokemonMoveNames.map((moveName: string) => (
                 <Link
                   key={moveName}
                   href={`/moves/${moveName}`}
@@ -127,11 +152,6 @@ export default async function PokemonDetailPage({ params }: PokemonDetailPagePro
             </div>
           ) : (
             <p className="text-gray-400 text-sm sm:text-base">No moves available</p>
-          )}
-          {pokemonMoveNames.length > 20 && (
-            <p className="text-gray-400 mt-4 text-xs sm:text-sm">
-              Showing 20 of {pokemonMoveNames.length} moves
-            </p>
           )}
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { fetchMoves } from '@/utils/pokemon-api';
-import MovesSearchClient from './MovesSearchClient';
+import MovesSearchClient from '@/app/_components/MovesSearchClient';
 
 export default async function MovesPage() {
   const moves = await fetchMoves(1000);
