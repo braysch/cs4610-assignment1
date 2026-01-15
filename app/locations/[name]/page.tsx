@@ -84,7 +84,6 @@ export default async function LocationDetailPage({ params }: LocationDetailPageP
                       <PokemonItem
                         key={poke.name}
                         pokemon={poke}
-                        index={index}
                         showSprite
                         variant="grid"
                       />
