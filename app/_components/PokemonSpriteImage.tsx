@@ -3,7 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 
-const PokemonSpriteImage = ({ poke }) => {
+interface Pokemon {
+  url: string;
+  name: string;
+}
+
+const PokemonSpriteImage = ({ poke }: { poke: Pokemon }) => {
   const [exists, setExists] = useState(true);
 
   const id = poke.url.split("/")[6];
@@ -12,13 +17,15 @@ const PokemonSpriteImage = ({ poke }) => {
   return (
     <>
       {exists && (
+        <>
         <Image
           src={src}
           alt={poke.name}
-          width={75}
-          height={75}
+          width={100}
+          height={100}
           onError={() => setExists(false)}
         />
+        </>
       )}
     </>
   );
