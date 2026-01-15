@@ -1,5 +1,6 @@
 ## Public URLS
 
+https://cs4610-assignment1-jcjsirz67-bradans-projects.vercel.app/pokemon
 https://cs4610-assignment1.vercel.app
 https://cs4610-assignment1-bradans-projects.vercel.app
 
